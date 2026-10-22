@@ -106,11 +106,18 @@ public class Pizza {
 
     public static void listMenu() {
         pizzaMenu.sort((p1, p2) -> Integer.compare(p1.menuNO, p2.menuNO));
-
+        System.out.println("=".repeat(140));
+        System.out.println("                                                            Menukort                                                            ");
+        System.out.println("");
         for (Pizza pizza : pizzaMenu) {
 
-            System.out.println(pizza.menuNO + ". " + pizza.pizzaName + " | " + String.join(", ", pizza.pizzaIngredients) + " - " + "Sizes | Child " +((pizza.pizzaPrice)/100)*Order.getChildPercentage() +" Standard "+pizza.pizzaPrice + " Family "+((pizza.pizzaPrice)/100)*Order.getFamilyPercentage()+ " kr.");
+            System.out.printf("%-4d %-15s | %-45s | Child: %7.2f kr. | Standard: %7.2f kr. | Family: %7.2f kr.%n", pizza.menuNO, pizza.pizzaName, String.join(", ", pizza.pizzaIngredients), (pizza.pizzaPrice / 100) * Order.getChildPercentage(), pizza.pizzaPrice, (pizza.pizzaPrice / 100) * Order.getFamilyPercentage()
+            );
 
+
+        }
+        for (int i = 0; i < 3; i++) {
+            System.out.println("");
 
         }
 

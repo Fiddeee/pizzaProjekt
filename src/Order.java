@@ -17,13 +17,13 @@
 import java.util.ArrayList;
 
 public class Order {
-    public static boolean hasOrdered = true;
-    static private ArrayList<Pizza> pizzas = new ArrayList<>();
+    public static boolean hasOrdered = false;
+    static private ArrayList<Pizza> pizzasInOrder = new ArrayList<>();
     static private ArrayList<Pizza.pizzaSize> sizes = new ArrayList<>();
 
     static private Double totalPrice = 0.00;
     private static int childPercentage = 75;
-    private static int familyPercentage = 125;
+    private static int familyPercentage = 150;
 
     public static Double getTotalPrice() {
         return totalPrice;
@@ -40,7 +40,7 @@ public class Order {
     public static void addPizza(int menuNO, Pizza.pizzaSize size) {
         for (Pizza pizza : Pizza.pizzaMenu) { //Datatype: Pizza, pizza = variable, Pizza.pizzaMenu = Our pizzamenu from file: Pizza.java
             if (pizza.getMenuNO() == menuNO) {
-                pizzas.add(pizza);
+                pizzasInOrder.add(pizza);
                 sizes.add(size);
                 if (size == Pizza.pizzaSize.Child) {
                     totalPrice += ((pizza.getPizzaPrice() / 100) * childPercentage);
@@ -49,32 +49,30 @@ public class Order {
                 } else {
                     totalPrice += pizza.getPizzaPrice();
                 }
-                System.out.println("Pizza NO " + menuNO + " added to the order");
-
-            } else {
-                System.out.println("Selected item isnt on the menu");
-
+                System.out.printf("Tilføjet: %d. %s | %s | Størrelse: %s%n", pizza.getMenuNO(), pizza.pizzaName, String.join(", ", pizza.pizzaIngredients), size);
+                return;
             }
         }
+        System.out.println("Selected item isnt on the menu");
 
     }
 
     public static void removePizza(int menuNO, Pizza.pizzaSize size) {
 
-        for (int i = 0; i < pizzas.size(); i++) {
+        for (int i = 0; i < pizzasInOrder.size(); i++) {
 
-            if (pizzas.get(i).getMenuNO() == menuNO
+            if (pizzasInOrder.get(i).getMenuNO() == menuNO
                     && sizes.get(i) == size) {
 
                 if (size == Pizza.pizzaSize.Child) {
-                    totalPrice -= ((pizzas.get(i).getPizzaPrice() / 100) * childPercentage);
+                    totalPrice -= ((pizzasInOrder.get(i).getPizzaPrice() / 100) * childPercentage);
                 } else if (size == Pizza.pizzaSize.Family) {
-                    totalPrice -= ((pizzas.get(i).getPizzaPrice() / 100) * familyPercentage);
+                    totalPrice -= ((pizzasInOrder.get(i).getPizzaPrice() / 100) * familyPercentage);
 
                 } else {
-                    totalPrice -= pizzas.get(i).getPizzaPrice();
+                    totalPrice -= pizzasInOrder.get(i).getPizzaPrice();
                 }
-                pizzas.remove(i);
+                pizzasInOrder.remove(i);
                 sizes.remove(i);
 
                 System.out.println("Pizza removed!");
@@ -87,12 +85,12 @@ public class Order {
 
 
     public static void listProducts() {
-        pizzas.sort((p1, p2) -> Integer.compare(p1.menuNO, p2.menuNO));
+        pizzasInOrder.sort((p1, p2) -> Integer.compare(p1.menuNO, p2.menuNO));
 
-        for (Pizza pizza : pizzas) {
+        for (Pizza pizza : pizzasInOrder) {
             System.out.println(pizza.menuNO + ". " + pizza.pizzaName + " | " + String.join(", ", pizza.pizzaIngredients));
         }
-        System.out.println("Total pris "+ Order.getTotalPrice());
+        System.out.printf("Total pris: %.2f kr.%n", Order.getTotalPrice());
 
 
     }

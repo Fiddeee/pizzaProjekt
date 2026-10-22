@@ -9,10 +9,11 @@
 
 import java.util.ArrayList;
 public class Main {
-    static void main() {
-        Pizza.loadPizzas();
-        UX.homeScreen();
-        UX.orderScreen();
+    public static void main(String[] args) {
+        Order.hasOrdered = false; // Variable for making sure if anything is ordered.
+        Pizza.loadPizzas(); // Creates the objects of Pizzas, used in the Menu.
+        UX.homeScreen(); //Starts the User experience, at the Homescreen
+
 
     }
 }
